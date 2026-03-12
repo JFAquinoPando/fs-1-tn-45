@@ -23,10 +23,10 @@ class TareaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-            //"title" => "required|max:255|min:3",            
-            "title" => ["required", new ContrasenhaValida()],
-                        //"completado" => "required|boolean"
+            'titulo' => ['required', 'string', 'max:255', new ContrasenhaValida()],
+            'descripcion' => ['required', 'string'],
+            'completado' => ['required', 'boolean'],
+            'extra' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

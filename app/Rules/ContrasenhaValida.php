@@ -14,33 +14,37 @@ class ContrasenhaValida implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // Validar longitud mínima de 8 caracteres
-        if (strlen($value) < 8) {
-            $fail('La contraseña debe tener mínimo 8 caracteres.');
+        if (!is_string($value)) {
+            $fail("El campo {$attribute} debe ser texto.");
             return;
         }
 
-       /*  // Validar que contenga al menos un número
+        if (mb_strlen($value) < 8) {
+            $fail("El campo {$attribute} debe tener minimo 8 caracteres.");
+            return;
+        }
+
+       /*  // Validar que contenga al menos un numero
         if (!preg_match('/\d/', $value)) {
-            $fail('La contraseña debe contener al menos un número.');
+            $fail('La contrasenha debe contener al menos un numero.');
             return;
         }
 
-        // Validar que contenga al menos una letra mayúscula
+        // Validar que contenga al menos una letra mayuscula
         if (!preg_match('/[A-Z]/', $value)) {
-            $fail('La contraseña debe contener al menos una letra mayúscula.');
+            $fail('La contrasenha debe contener al menos una letra mayuscula.');
             return;
         }
 
-        // Validar que contenga al menos una letra minúscula
+        // Validar que contenga al menos una letra minuscula
         if (!preg_match('/[a-z]/', $value)) {
-            $fail('La contraseña debe contener al menos una letra minúscula.');
+            $fail('La contrasenha debe contener al menos una letra minuscula.');
             return;
         }
 
-        // Validar que contenga al menos un carácter especial (#, _, $, @)
+        // Validar que contenga al menos un caracter especial (#, _, $, @)
         if (!preg_match('/[#_$@]/', $value)) {
-            $fail('La contraseña debe contener al menos un carácter especial (#, _, $, @).');
+            $fail('La contrasenha debe contener al menos un caracter especial (#, _, $, @).');
             return;
         } */
     }

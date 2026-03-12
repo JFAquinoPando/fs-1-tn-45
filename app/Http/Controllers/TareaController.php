@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TareaRequest;
 use App\Models\Tarea;
-use App\Rules\ContrasenhaValida;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TareaController extends Controller
 {
@@ -30,27 +30,19 @@ class TareaController extends Controller
      */
     public function store(TareaRequest $peticion)
     {
-        //
-        //$peticion->input("titulo")
+        $Tarea = new Tarea();
+        $Tarea->titulo = $peticion->titulo;
+        $Tarea->descripcion = strlen($peticion->descripcion) < 4 
+                                ? "Sin descripcion" : $peticion->descripcion;
+        $Tarea->completado = $peticion->completado;
+        $Tarea->extra = "ORM con NEW";
+        $Tarea->save();
+        return response()->json($Tarea, 201);
 
-         $e = $peticion->validate([
-             "title" => ["required", new ContrasenhaValida()]
-         ]);
-         dd($e);
-        /* $res = $peticion->validate([
-            "title" => "required|max:255|min:3",
-            //"completado" => "required|boolean"
-        ]); */
-        //es = 4;   
-        /* dd($res); */
+        /* $datos = $peticion->validated();
+        $tarea = Tarea::create($datos);
 
-        return Tarea::create($peticion->all());
-        /* return Tarea::create([
-            "titulo" => "Scary Movie 6",
-            "descripcion" => "Ir a ver la película en el cine el día del estreno",
-            "completado" => false,
-            "extra" => "la entrada debe ser en primera fila"
-        ]); */
+        return response()->json($tarea, 201); */
     }
 
     /**
@@ -64,17 +56,39 @@ class TareaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tarea $tarea)
+    public function edit(Tarea $tarea, $id)
     {
         //
+        $tareaEncontrada = Tarea::find($id);
+
+        if($tareaEncontrada === null){
+            Log::warning("No se encontró la tarea con id: {$id}");
+            Log::debug("Una prueba de log debug para la tarea con id: {$id}");
+            return response("<h1>Tarea no encontrada</h1>", 404)
+                    ->header("Content-Type", "text/html");
+        }
+
+        return view("todo_list_actualizar", 
+        [
+                "tarea_guardada" => $id, 
+                "tareaEncontrada" => $tareaEncontrada
+              ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tarea $tarea)
+    public function update(TareaRequest $peticion, $id)
     {
         //
+        Log::info("\n\nActualizando la tarea con id: {$id} ". json_encode($peticion->all()));
+        $tarea = Tarea::find($id);
+        $tarea->titulo = $peticion->titulo. " - Actualizado";
+        $tarea->descripcion = "Actualizacion con ORM";
+        $tarea->completado = $peticion->completado;
+        $tarea->extra = "ORM con UPDATE";
+        $tarea->save();
+        return response()->json($tarea, 200);
     }
 
     /**

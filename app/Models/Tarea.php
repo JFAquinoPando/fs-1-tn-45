@@ -8,5 +8,5 @@ class Tarea extends Model
 {
     //
     protected $fillable = ["titulo", "descripcion", "completado", "extra"];
-    protected $hidden = ["extra"];
+    //  protected $hidden = ["extra"];
 }

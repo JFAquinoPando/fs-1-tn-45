@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\TareaController;
+use App\Models\Tarea;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +22,9 @@ Route::delete("/eliminar", [AlumnoController::class, "eliminar"]);
 Route::get("formulario", function(){
     return view("todo_list");
 });
+
+
+Route::get("/actualizar/{id}", [TareaController::class, "edit"]);
 
 
 
