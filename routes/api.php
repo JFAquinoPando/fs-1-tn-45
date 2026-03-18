@@ -20,6 +20,8 @@ Route::post("/tareas", [TareaController::class, "store"]);
 Route::put("/tareas/{id}", [TareaController::class, "update"]);
 
 
+Route::delete("/tareas", [TareaController::class, "deleteMany"]);
+
 
 
 

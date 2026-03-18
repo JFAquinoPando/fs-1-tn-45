@@ -19,5 +19,22 @@
         <hr>
         <button>Enviar</button>
     </form>
+
+    <hr>
+
+    <form action="/api/tareas" method="post">
+        @method("DELETE")
+        <ul>
+            @foreach ($tareas_a_realizar as $tarea)
+            <li> 
+                <label for="tarea_{{ $tarea->id }}">{{ $tarea->titulo }}</label> 
+                <input type="checkbox" name="tareas[]" value="{{ $tarea->id }}" id="tarea_{{ $tarea->id }}"> 
+                | 
+                <a href="/actualizar/{{ $tarea->id }}" target="_blank" rel="noopener noreferrer">Editar</a></li>
+            @endforeach
+        </ul>
+        <button>Eliminar</button>
+    </form>
+
 </body>
 </html>

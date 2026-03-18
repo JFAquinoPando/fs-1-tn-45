@@ -20,11 +20,14 @@ Route::delete("/eliminar", [AlumnoController::class, "eliminar"]);
 
 
 Route::get("formulario", function(){
-    return view("todo_list");
+    return view("todo_list", [
+        "tareas_a_realizar" => Tarea::all()
+    ]);
 });
 
 
 Route::get("/actualizar/{id}", [TareaController::class, "edit"]);
+
 
 
 

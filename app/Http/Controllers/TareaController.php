@@ -94,8 +94,23 @@ class TareaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tarea $tarea)
+    public function destroy($id)
     {
-        //
+        $borrar = Tarea::find($id);
+        $borrar->delete();
+    }
+
+    /**
+     * Remove the specified resource on storage from Bulk Data.
+     */
+    public function deleteMany(Request $peticion)
+    {
+        $tareas = $peticion->input("tareas");
+        foreach ($tareas as $tarea) {
+            $this->destroy($tarea);
+        }
+        return redirect('/formulario');
+        /* $borrar = Tarea::find($id);
+        $borrar->delete(); */
     }
 }
